@@ -2,14 +2,13 @@ const streamOriginal = require('../actions/streamOriginal')
 
 exports.viewImage = (req, res) => {
     const {id} = req.params
+
     streamOriginal(id)
-        .then(result => {
-            console.log(result)
+        .then(stream => {
+            stream.pipe(res)
         })
         .catch(error => {
-            console.error(error)
+            res.status(500).send(error.message || error)
         })
-
-    res.send('image')
 }
 
